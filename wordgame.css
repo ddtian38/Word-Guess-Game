@@ -1,0 +1,67 @@
+/*General*/
+body{
+    margin: 0 auto;
+    font-family: Georgia, 'Times New Roman', Times, serif
+}
+
+
+#footer {
+    position: absolute;
+    bottom: auto;
+    height: 50px;
+    width: 100%;
+    background-color: gray;
+    border-top: 8px solid #b87324;
+    color: white;
+    text-align: center;
+  }
+
+
+#footer-note{
+    color: white;
+}
+
+/* Game Content styling */
+#game-content{
+    text-align: center;
+    margin-top: 10px;
+}
+#game-title{
+    background-image: url("clone-wars.jpg");
+    background-size: 100%;
+    color: white;
+    text-align: center;
+    height: 500px;
+    border-radius: 20px;
+    padding: 25%;
+}
+
+#game-title h1{
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+
+#wins-tracker{
+    border: 10px black dotted;
+    background-color: rgb(177, 112, 112);
+    color: white;
+}
+
+#game-word-guessing{
+    border: 2px solid lightgoldenrodyellow;
+    background-color: #666666;
+    color: white;
+    border: 10px white dotted;
+}
+
+#guess-word{
+    font-size: 16px;
+}
+
+#game-word-guessing .row:first-child {
+
+    border-bottom: 2px solid yellow;
+}
+
+
+
