@@ -1,27 +1,45 @@
 var guessWord = document.getElementById("guess-word");
 var numOfGuess = document.getElementById("guess-remaining");
 var guessedLettersText = document.getElementById("guessed-letters");
-// var guessedLettersArray = [];
-var listOfWords = ["ahsoka", "sith", "jedi", "clones" ,"vader", "yoda", "tarkin", "cody", "chewbacca", "rex"];
-var gameOver = false;
+var audio = document.querySelector("audio")
+var listOfWords = ["sith", "jedi","vader", "yoda", "tarkin", "chewbacca", "anakin", "clones"];
+var wordGuessCorrectly = false;
 var notCorrectLetter = false;
 var numGuess = 15;
 var wins = 0, losses = 0;
 var guessedLetters = [];
-var outOfGuesses, wordToGuess, blanks, gameOver;
+var outOfGuesses, wordToGuess, blanks;
 
 var imagesGallery = {
-    "ahsoka": "assets/images/ahsoka.jpg",
-    "sith": "assets/images/sith.jpg",
-    "jedi": "assets/images/jedi.jpg",
-    "clones": "assets/images/clones.jpg",
-    "vader": "assets/images/vader.jpg",
-    "yoda": "assets/images/yoda.jpg",
-    "tarkin": "assets/images/tarkin.jpg",
-    "cody": "assets/images/cody.jpg",
-    "chewbacca": "assets/images/chewbacca.jpg",
-    "rex": "assets/images/rex.jpg"
+    "sith": { image: "assets/images/sith.jpg",
+              sound: "assets/sounds/sith.mp3"
+             },
+    "jedi": { image: "assets/images/jedi.jpg",
+             sound: "assets/sounds/jedi.mp3"
+            }, 
+    "vader": { image: "assets/images/vader.jpg",
+            sound: "assets/sounds/vader.mp3"
+            },
+    "yoda": { image: "assets/images/yoda.jpg",
+            sound: "assets/sounds/yoda.mp3"
+             },
+    "tarkin": { image: "assets/images/tarkin.jpg",
+             sound: "assets/sounds/tarkin.mp3"
+            },
+
+    "chewbacca": { image:"assets/images/chewbacca.jpg",
+            sound: "assets/sounds/chewbacca.wav"
+            },
+
+    "anakin": { image: "assets/images/anakin.jpg",
+            sound:"assets/sounds/anakin.mp3"
+
+    },
+    "clones": { image: "assets/images/clone.jpg",
+            sound: "assets/sounds/clone.ogg"
+    }
 }
+
 // A random index is selected from words list and fills the space with blank
 function selectRandomWord(){
     numOfGuess.textContent = numGuess;
@@ -41,10 +59,12 @@ function fillBlank(word){
 function reset(){
     guessedLetters = [];
     outOfGuesses= false;
-    gameOver = false;
+    wordGuessCorrectly = false;
     numGuess = 15;
-    guessedLettersText.textContent = "";
-    fillBlank(selectRandomWord());
+    guessWord.textContent= "";
+    guessedLettersText.textContent= "";
+    wordToGuess = selectRandomWord()
+    fillBlank(wordToGuess);
 
 }
 
@@ -57,6 +77,24 @@ function replaceChar(str, ind, letter){
         str = str.substring(0, ind) + letter + str.substring(ind+1);
      }
      return str;
+}
+
+function playerWins(){
+    alert("Congratulations for solving the words.");
+    document.querySelector("#char-pic").src = imagesGallery[wordToGuess]["image"];
+    wins++;
+    document.querySelector("#name").textContent = wordToGuess;
+    document.getElementById("num-of-wins").textContent = wins;
+    document.querySelector("audio").src = imagesGallery[wordToGuess]["sound"];
+    document.querySelector("audio").play();
+    reset();
+}
+
+function playerLoses(){
+    alert("Sorry you lost.");
+    losses++;
+    document.getElementById("num-of-losses").textContent = losses;
+    reset();
 }
 
 //Tracks the user input and runs the game.
@@ -89,7 +127,7 @@ function trackGame(event){
                 }
                 guessWord.textContent = blanks;
 
-                gameOver = (guessWord.textContent === wordToGuess);
+                wordGuessCorrectly = (guessWord.textContent === wordToGuess);
             }
             else{
                 notCorrectLetter = true;
@@ -99,29 +137,26 @@ function trackGame(event){
             if((guessedLetters.length === 0) || (guessedLetters.indexOf(letter.toLowerCase()) === -1)){
                 numGuess--;
                 numOfGuess.textContent = numGuess;
-                outOfGuesses = (numGuess === 0);
                 guessedLetters.push(letter.toLowerCase());
                 if(blanks.indexOf(letter.toLowerCase()) === -1){
                     guessedLettersText.textContent += (" " + letter);
                  }
              
-
             }
         }
 
-        
+    outOfGuesses = (numGuess === 0);
+
     if(outOfGuesses){
-        alert("Sorry you lost.");
-        losses++;
-        document.getElementById("num-of-losses").textContent = losses;
-        reset();
+        if(wordGuessCorrectly){
+            playerWins();
+        }
+        else{
+            playerLoses();
+        }
     }
-    else if(gameOver){
-        alert("Congratulations for solving the words.");
-        document.querySelector("#char-pic").src = imagesGallery[wordToGuess]
-        wins++;
-        document.getElementById("num-of-wins").textContent = wins;
-        reset();
+    else if(wordGuessCorrectly){
+        playerWins();
     }
     
 }
