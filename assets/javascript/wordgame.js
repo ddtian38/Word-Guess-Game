@@ -118,7 +118,7 @@ function trackGame(event){
     }
     else if(gameOver){
         alert("Congratulations for solving the words.");
-        document.querySelector("#char-pic").src = imagesGallery[wordToGuess];
+        document.querySelector("#char-pic").src = imagesGallery[wordToGuess]
         wins++;
         document.getElementById("num-of-wins").textContent = wins;
         reset();
