@@ -100,11 +100,9 @@ function playerLoses(){
 //Tracks the user input and runs the game.
 function trackGame(event){
     
-    console.log('x');
     var letter = event.key;
     //Checks to see if the user has pressed an alpha letter. If not, warnings user to choose a letter from the alphabet. Else, continues to run the game
     if (!(letter.match(/[a-zA-Z]/))){
-        console.log('xx');
         alert("Please choose letters from the alphabet");
     }
 
@@ -118,7 +116,7 @@ function trackGame(event){
         }
 
 
-        listLetterIndIsNotEmpty  = (listLetterInd.length > 0);
+        var listLetterIndIsNotEmpty  = (listLetterInd.length > 0);
             if (listLetterIndIsNotEmpty){
                 while (listLetterIndIsNotEmpty){
                     var p = listLetterInd.pop();
@@ -170,4 +168,7 @@ function init(){
     document.addEventListener("keydown", trackGame);
 }
 
+t1 = performance.now();
 document.onload = init();
+t2 = performance.now();
+console.log(t1+t2/1000);
