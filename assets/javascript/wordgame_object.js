@@ -1,14 +1,15 @@
-var guessWord = document.getElementById("guess-word");
-var numOfGuess = document.getElementById("guess-remaining");
-var guessedLettersText = document.getElementById("guessed-letters");
-var audio = document.querySelector("audio");
+let guessWord = document.getElementById("guess-word");
+let numOfGuess = document.getElementById("guess-remaining");
+let guessedLettersText = document.getElementById("guessed-letters");
+let audio = document.querySelector("audio");
 
-var game = {listOfWords: ["sith", "jedi","vader", "yoda", "tarkin", "chewbacca", "anakin", "clones"],
+let game = {listOfWords: ["sith", "jedi","vader", "yoda", "tarkin", "chewbacca", "anakin", "clones"],
 wordGuessCorrectly: false,
 notCorrectLetter: false,
 numGuess: 15,
 wins: 0,
 losses: 0,
+wordToGuess: "",
 guessedLetters: [],
 outOfGuesses: false,
 wordGuessCorrectly: "",
@@ -44,7 +45,7 @@ imagesGallery: {
 },
 
 selectRandomWord: (arr) => {
-    numOfGuess.textContent = this.numGuess;
+    numOfGuess.textContent = game.numGuess;
     var i = Math.floor(Math.random()*arr.length);
     return arr[i];
 },
@@ -59,14 +60,15 @@ fillBlank:  (word) => {
 },
 
 reset: () => {
-    this.guessedLetters = [];
-    this.outOfGuesses = false;
-    this.wordGuessCorrectly = false;
-    this.numGuess = 15;
+    game.guessedLetters = [];
+    game.outOfGuesses = false;
+    game.wordGuessCorrectly = false;
+    game.numGuess = 15;
+    game.blanks = "";
     guessWord.textContent= "";
     guessedLettersText.textContent= "";
-    this.wordToGuess = selectRandomWord(this.listOfWords)
-    this.fillBlank(this.wordToGuess);
+    game.wordToGuess = game.selectRandomWord(game.listOfWords)
+    game.fillBlank(game.wordToGuess);
 },
 
 replaceChar: (str, ind, letter) => {
@@ -81,19 +83,21 @@ replaceChar: (str, ind, letter) => {
 
 playerWins: () => {
     alert("Congratulations for solving the words.");
-    document.querySelector("#char-pic").src = this.imagesGallery[this.wordToGuess]["image"];
-    this.wins++;
-    document.querySelector("#name").textContent = this.wordToGuess;
-    document.getElementById("num-of-wins").textContent = this.wins;
-    document.querySelector("audio").src = this.imagesGallery[this.wordToGuess]["sound"];
+    console.log(game.imagesGallery);
+    console.log(game.wordToGuess);
+    document.querySelector("#char-pic").src = game.imagesGallery[game.wordToGuess]["image"];
+    game.wins++;
+    document.querySelector("#name").textContent = game.wordToGuess;
+    document.getElementById("num-of-wins").textContent = game.wins;
+    document.querySelector("audio").src = game.imagesGallery[game.wordToGuess]["sound"];
     document.querySelector("audio").play();
-    this.reset();
+    game.reset();
 },
 
 playerLoses: () => {
     alert("Sorry you lost.");
-    this.losses++;
-    document.getElementById("num-of-losses").textContent = this.losses;
+    game.losses++;
+    document.getElementById("num-of-losses").textContent = game.losses;
     reset();
 }
 
