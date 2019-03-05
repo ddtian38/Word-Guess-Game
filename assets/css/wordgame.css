@@ -28,24 +28,25 @@ body{
 }
 #game-title{
     background-image: url("clone-wars.jpg");
-    background-size: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
     color: white;
     text-align: center;
-    height: 500px;
+    height: 100%;
     border: 5px white solid;
     border-radius: 20px;
     padding: 15%;
 }
 
 #game-title h1{
-    font-size: 40px;
+    font-size: 30px;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
 }
 
-#char-picture{
-    height: 200px;
-    width: 200px;
+.img-thumbnail{
+    height: 150px;
+    width: 150px;
 }
 
 #wins-tracker{
@@ -70,5 +71,14 @@ body{
     border-bottom: 2px solid yellow;
 }
 
+@media screen and (max-width: 768px){
 
+    #game-word-guessing{
+        margin-top: 20px;
+    }
+
+    .img-thumbnail{
+        margin-bottom: 20px;
+    }
+}
 
