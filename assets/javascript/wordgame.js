@@ -1,11 +1,12 @@
+//Creating variables to access the DOM elements in index.html
 let guessWord = document.getElementById("guess-word");
 let numOfGuess = document.getElementById("guess-remaining");
 let guessedLettersText = document.getElementById("guessed-letters");
 let audio = document.querySelector("audio");
 
+//Creating game object to run the game.
 let game = {listOfWords: ["sith", "jedi","vader", "yoda", "tarkin", "chewbacca", "anakin", "clones"],
 wordGuessCorrectly: false,
-notCorrectLetter: false,
 numGuess: 15,
 wins: 0,
 losses: 0,
@@ -43,21 +44,22 @@ imagesGallery: {
             sound: "assets/sounds/clone.ogg"
     }
 },
-
+//Function selects random word from the listOfWords array
 selectRandomWord: function(arr){
     numOfGuess.textContent = this.numGuess;
     var i = Math.floor(Math.random()*arr.length);
     return arr[i];
 },
 
+//Function populates the number of blanks according to the selected word
 fillBlank: function(word) {
     for (var x = 0; x < word.length; x++){
         this.blanks = this.blanks + "-";
-        console.log(this.blanks);
-    guessWord.textContent = this.blanks;
+        guessWord.textContent = this.blanks;
     }
 },
 
+//Function resets the game
 reset: function() {
     this.guessedLetters = [];
     this.outOfGuesses = false;
@@ -70,6 +72,7 @@ reset: function() {
     this.fillBlank(this.wordToGuess);
 },
 
+//Function replaces the blanks with the letter that the user types
 replaceChar: function(str, ind, letter){
     if (ind === 0){
         str = letter + str.substring(1, str.length);
@@ -80,10 +83,9 @@ replaceChar: function(str, ind, letter){
      return str;
 },
 
+//Function is runned when the player wins. Updates the picture associated with the word. Updates the number of wins the player has.
 playerWins: function(){
     alert("Congratulations for solving the words.");
-    console.log(this.imagesGallery);
-    console.log(this.wordToGuess);
     document.querySelector("#char-pic").src = this.imagesGallery[this.wordToGuess]["image"];
     this.wins++;
     document.querySelector("#name").textContent = this.wordToGuess;
@@ -93,6 +95,7 @@ playerWins: function(){
     game.reset();
 },
 
+//Function is runned when the player loses. Updates the number of losses the player has.
 playerLoses: function() {
     alert("Sorry you lost.");
     this.losses++;
@@ -126,7 +129,7 @@ function trackGame(event){
             }
         }
 
-
+            // Checks to see if the listLetterArray is empty or not. If it's not empty, then the letter that the user typed is part of the word to guess and it fills in the blanks with the typed letter.
             var listLetterIndIsNotEmpty  = (listLetterIndArr.length > 0);
             if (listLetterIndIsNotEmpty){
                 while (listLetterIndIsNotEmpty){
@@ -134,14 +137,12 @@ function trackGame(event){
                     game.blanks = game.replaceChar(game.blanks, p, letter);
                     listLetterIndIsNotEmpty = !(listLetterIndArr.length === 0);
                 }
+                //Updates the blanks with the letter
                 guessWord.textContent = game.blanks;
-
+                //Checks if the player has correctly guessed the word
                 game.wordGuessCorrectly = (guessWord.textContent === game.wordToGuess);
             }
-            else{
-                game.notCorrectLetter = true;
-            }
-
+            
             //Updates number of guesses remaining and guessed letter array by adding user input
             if((game.guessedLetters.length === 0) || (game.guessedLetters.indexOf(letter.toLowerCase()) === -1)){
                 game.numGuess--;
@@ -154,9 +155,11 @@ function trackGame(event){
             }
         }
 
+    //Checks if the player has runned out of guesses
     game.outOfGuesses = (game.numGuess === 0);
-
+    
     if(game.outOfGuesses){
+        //If the player runs out of guesses but guesses the word correctly, the player wins. Else the player loses.
         if(game.wordGuessCorrectly){
             game.playerWins();
         }
@@ -174,10 +177,9 @@ function trackGame(event){
 //Starting game function
 function main(){
     game.wordToGuess = game.selectRandomWord(game.listOfWords);
-    console.log('xxx');
     game.fillBlank(game.wordToGuess);
 
     document.addEventListener("keydown", trackGame);
 }
-
+//When the web page has loaded, run main() to play the game.
 document.onload = main();
