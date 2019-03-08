@@ -44,6 +44,7 @@ imagesGallery: {
             sound: "assets/sounds/clone.ogg"
     }
 },
+
 //Function selects random word from the listOfWords array
 selectRandomWord: function(arr){
     numOfGuess.textContent = this.numGuess;
@@ -92,15 +93,16 @@ playerWins: function(){
     document.getElementById("num-of-wins").textContent = this.wins;
     document.querySelector("audio").src = this.imagesGallery[this.wordToGuess]["sound"];
     document.querySelector("audio").play();
-    game.reset();
+    this.reset();
 },
 
 //Function is runned when the player loses. Updates the number of losses the player has.
 playerLoses: function() {
+
     alert("Sorry you lost.");
     this.losses++;
     document.getElementById("num-of-losses").textContent = this.losses;
-    reset();
+    this.reset();
 }
 
 
@@ -164,7 +166,9 @@ function trackGame(event){
             game.playerWins();
         }
         else{
+            console.log("player lsoes")
             game.playerLoses();
+            
         }
     }
     else if(game.wordGuessCorrectly){
